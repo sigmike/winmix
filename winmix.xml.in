@@ -1,5 +1,5 @@
 <compiz>
-    <plugin name="switcher">
+    <plugin name="winmix">
         <_short>winmix</_short>
         <_long>Win Mix</_long>
         <category>Window Management</category>
