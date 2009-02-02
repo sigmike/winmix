@@ -397,6 +397,7 @@ switchUpdateWindowList (CompScreen *s,
     y = s->outputDev[s->currentOutputDev].region.extents.y1 +
         s->outputDev[s->currentOutputDev].height / 2;
 
+    
     if (ss->popupWindow)
         XMoveResizeWindow (s->display->display, ss->popupWindow,
                            x - WINDOW_WIDTH (count) / 2,
@@ -615,15 +616,19 @@ switchInitiate (CompScreen            *s,
         if (!visual)
             return;
 
+        
+        
         if (count > 1)
         {
             count -= (count + 1) & 1;
             if (count < 3)
                 count = 3;
         }
+        
 
         xsh.flags       = PSize | PWinGravity;
         xsh.width       = WINDOW_WIDTH (count);
+        xsh.width       = WINDOW_WIDTH (1);
         xsh.height      = WINDOW_HEIGHT;
         xsh.win_gravity = StaticGravity;
 
@@ -670,6 +675,7 @@ switchInitiate (CompScreen            *s,
                        0xffffffff);
 
         setSelectedWindowHint (s);
+        
     }
 
     if (!ss->grabIndex)
@@ -709,6 +715,7 @@ switchInitiate (CompScreen            *s,
         ss->switching  = TRUE;
         ss->moreAdjust = 1;
     }
+    
 }
 
 static Bool
@@ -816,7 +823,7 @@ switchInitiateCommon (CompDisplay           *d,
         if (!ss->switching)
         {
             switchInitiate (s, selection, showPopup);
-
+/*
             if (state & CompActionStateInitKey)
                 action->state |= CompActionStateTermKey;
 
@@ -824,9 +831,10 @@ switchInitiateCommon (CompDisplay           *d,
                 action->state |= CompActionStateTermEdge;
             else if (state & CompActionStateInitButton)
                 action->state |= CompActionStateTermButton;
+*/
         }
 
-        switchToWindow (s, nextWindow);
+        //switchToWindow (s, nextWindow);
     }
 
     return FALSE;
@@ -1672,11 +1680,15 @@ switchPaintWindow (CompWindow              *w,
 
         for (i = 0; i < ss->nWindows; i++)
         {
+                switchPaintThumb (ss->windows[i], &w->lastPaint, transform,
+                                  mask, x1, y, x1, x2);
+        /*
             if (x + WIDTH > x1)
                 switchPaintThumb (ss->windows[i], &w->lastPaint, transform,
                                   mask, x, y, x1, x2);
 
             x += WIDTH;
+            */
         }
 
         for (i = 0; i < ss->nWindows; i++)
